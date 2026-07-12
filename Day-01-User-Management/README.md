@@ -4,18 +4,31 @@
 To learn the fundamental Linux commands for creating, modifying, and deleting users and groups.
 
 ## Commands Used
-- `sudo groupadd developers` - Created a new group called 'developers'.
-- `sudo useradd -m -G developers dev1` - Created a user 'dev1' with a home directory and added them to the 'developers' group.
-- `sudo passwd dev1` - Set a password for the user 'dev1'.
-- `sudo userdel -r dev2` - Deleted the user 'dev2' and their home directory.
+| Command | Description |
+|---------|-------------|
+| `sudo groupadd developers` | Created a group for developers. |
+| `sudo groupadd admins` | Created a group for admins. |
+| `sudo useradd -m -G developers dev1` | Created user `dev1` and added to `developers`. |
+| `sudo passwd dev1` | Set password for `dev1`. |
+| `sudo useradd -m -G developers dev2` | Created user `dev2` and added to `developers`. |
+| `sudo passwd dev2` | Set password for `dev2`. |
+| `sudo useradd -m -G admins admin1` | Created user `admin1` and added to `admins`. |
+| `sudo passwd admin1` | Set password for `admin1`. |
+| `sudo useradd -s /sbin/nologin -m tomcat` | Created service account `tomcat` with no login shell. |
+| `sudo usermod -L dev2` | Locked the `dev2` user account. |
+| `sudo passwd -S dev2` | Showed password status for `dev2`. |
+| `sudo usermod -U dev2` | Unlocked the `dev2` user account. |
+| `sudo userdel -r dev2` | Deleted `dev2` and their home directory. |
 
 ## Screenshots
-*[You will add your screenshots here after your next lab session]*
+![Locking and Unlocking User Account](lock-unlock-verification.png)
 
 ## Key Takeaways
-- Users are created with `useradd`.
-- Groups help manage permissions for multiple users at once.
-- The `-r` flag with `userdel` is crucial to remove the user's home directory and avoid leaving orphaned files.
+- `sudo` is required for user management commands.
+- `usermod -L` locks a user account; `usermod -U` unlocks it.
+- `passwd -S` shows the status of a user account (L = Locked, P = Password set).
+- Service accounts should have `/sbin/nologin` to prevent login.
 
 ## Challenges Faced
-*[You will add any issues you ran into here, like a "Permission Denied" error, and how you fixed them]*
+- **Permission Denied:** When I tried to lock `dev2` without `sudo`, I got an error. I fixed it by using `sudo` to elevate privileges.
+- **Understanding Output:** I learned that `passwd -S` shows `L` for locked and `P` for password set.
