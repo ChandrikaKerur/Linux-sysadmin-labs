@@ -14,10 +14,7 @@ developer ALL=(ALL) /usr/bin/systemctl restart httpd
 This rule gives the developer user permission to run only the systemctl restart httpd command as root.
 
 Screenshots
-![sudo test rule](sudo-rule-test.png)
-
-<img width="1437" height="242" alt="sudo-rule-test" src="https://github.com/user-attachments/assets/2210dbbc-25e5-40c6-bbf9-2f4e2fc4d39d" />
-
+![Sudo Rule Test](https://raw.githubusercontent.com/ChandrikaKerur/Linux-sysadmin-labs/main/Day-02-Sudo-Access/sudo-rule-test.png)
 
 Key Takeaways
 visudo is the only safe way to edit sudoers files.
