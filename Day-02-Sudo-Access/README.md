@@ -14,7 +14,7 @@ developer ALL=(ALL) /usr/bin/systemctl restart httpd
 This rule gives the developer user permission to run only the systemctl restart httpd command as root.
 
 ## Screenshots
-!(https://raw.githubusercontent.com/ChandrikaKerur/Linux-sysadmin-labs/main/Day-02-Sudo-Access/sudo-rule-test.png)
+(https://raw.githubusercontent.com/ChandrikaKerur/Linux-sysadmin-labs/main/Day-02-Sudo-Access/sudo-rule-test.png)
 
 
 ## Key Takeaways
