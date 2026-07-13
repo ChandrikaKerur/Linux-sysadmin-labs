@@ -16,7 +16,6 @@ This rule gives the developer user permission to run only the systemctl restart 
 Screenshots
 ![sudo test rule](sudo-rule-test.png)
 
-
 Key Takeaways
 visudo is the only safe way to edit sudoers files.
 Always use the full path to the command.
