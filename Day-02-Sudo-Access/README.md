@@ -10,8 +10,9 @@ To learn how to grant specific, limited sudo access to users and groups.
 ```bash
 # Allow the developer user to restart the web server
 developer ALL=(ALL) /usr/bin/systemctl restart httpd
+```
 
-This rule gives the developer user permission to run only the systemctl restart httpd command as root.```
+This rule gives the developer user permission to run only the systemctl restart httpd command as root.
 
 Screenshots
 ![Sudo Rule Test](./sudo-rule-test.png)
