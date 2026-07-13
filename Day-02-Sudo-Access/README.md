@@ -13,16 +13,16 @@ developer ALL=(ALL) /usr/bin/systemctl restart httpd
 
 This rule gives the developer user permission to run only the systemctl restart httpd command as root.
 
-## Screenshots
-(https://raw.githubusercontent.com/ChandrikaKerur/Linux-sysadmin-labs/main/Day-02-Sudo-Access/sudo-rule-test.png)
+Screenshots
+![sudo test rule](sudo-rule-test.png)
 
 
-## Key Takeaways
+Key Takeaways
 visudo is the only safe way to edit sudoers files.
 Always use the full path to the command.
 Least privilege is a core security principle.
 
-## Challenges Faced
+Challenges Faced
 1. Syntax Error While Editing Sudoers File
 Issue: When I first created the sudoers file, I accidentally typed extra text (bash and ^) inside the file. This caused a syntax error when I tried to save it.
 Error Message: /etc/sudoers.d/developer:1:5: syntax error
