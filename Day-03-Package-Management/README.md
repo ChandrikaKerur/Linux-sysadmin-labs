@@ -11,7 +11,7 @@ To learn how to manage software packages using the DNF package manager — a cor
 |---------|-------------|
 | `sudo dnf check-update` | Check for available updates |
 | `sudo dnf update -y` | Update all packages |
-| `sudo dnf search httpd` | Search for a package |
+| `sudo dnf search httpd` | Search for a package | 
 | `sudo dnf info httpd` | Get detailed package information |
 | `sudo dnf install -y httpd` | Install a package |
 | `sudo dnf list installed` | List all installed packages |
