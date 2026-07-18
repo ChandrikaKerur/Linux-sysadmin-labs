@@ -21,27 +21,6 @@
 ### 1. UUID of LVM Volume
 ![UUID](screenshots/01-uuid-blkid.png)
 
-### 2. fstab Entry
-![fstab Entry](screenshots/02-fstab-entry.png)
-
-### 3. Mount Verification
-![Mount Verify](screenshots/03-mount-verify.png)
-
-### 4. Troubleshooting Error
-![Troubleshoot Error](screenshots/04-troubleshoot-error.png)
-
-### 5. Emergency Mode
-![Emergency Mode](screenshots/05-emergency-mode.png)
-
-### 6. Remount Root as Read-Write
-![Remount RW](screenshots/06-remount-rw.png)
-
-### 7. fstab Fixed
-![fstab Fixed](screenshots/07-fstab-fixed.png)
-
-### 8. Verification After Reboot
-![Post Recovery Verify](screenshots/08-post-recovery-verify.png)
-
 ---
 
 ## Key Takeaways
