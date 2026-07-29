@@ -24,7 +24,7 @@ Commands Used
 
 Screenshots
 
-1. Service Status - ![01-service-status.png]
+1. Service Status - '01-service-status.png'
 2. Starting and Stopping a Service - `02-start-stop-service.png`
 3. Enabling a Service - `03-enable-service.png`
 4. Listing Services - `04-list-services.png`
