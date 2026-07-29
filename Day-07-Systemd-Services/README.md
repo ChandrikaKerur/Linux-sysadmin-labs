@@ -24,16 +24,16 @@ Commands Used
 
 Screenshots
 
-1. Service Status - `screenshots/01-service-status.png`
-2. Starting and Stopping a Service - `screenshots/02-start-stop-service.png`
-3. Enabling a Service - `screenshots/03-enable-service.png`
-4. Listing Services - `screenshots/04-list-services.png`
-5. Viewing Service Logs - `screenshots/05-service-logs.png`
-6. Custom Service Created - `screenshots/06-custom-service.png`
-7. Custom Service Running - `screenshots/07-service-running.png`
-8. Troubleshooting a Failed Service - `screenshots/08-troubleshoot-failed.png`
-9. Masking and Unmasking a Service - `screenshots/09-mask-unmask.png`
-10. Final Service Status - `screenshots/10-final-status.png`
+1. Service Status - `01-service-status.png`
+2. Starting and Stopping a Service - `02-start-stop-service.png`
+3. Enabling a Service - `03-enable-service.png`
+4. Listing Services - `04-list-services.png`
+5. Viewing Service Logs - `05-service-logs.png`
+6. Custom Service Created - `06-custom-service.png`
+7. Custom Service Running - `07-service-running.png`
+8. Troubleshooting a Failed Service - `08-troubleshoot-failed.png`
+9. Masking and Unmasking a Service - `09-mask-unmask.png`
+10. Final Service Status - `10-final-status.png`
 
 Steps Performed
 
