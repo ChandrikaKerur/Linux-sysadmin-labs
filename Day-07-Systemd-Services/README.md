@@ -23,17 +23,25 @@ Commands Used
 | `sudo systemctl unmask <service>` | Remove a mask from a service |
 
 Screenshots
+![Service Status](01-service-status.png)
 
-1. ![Service Status](01-service-status.png)
-2. Starting and Stopping a Service - `02-start-stop-service.png`
-3. Enabling a Service - `03-enable-service.png`
-4. Listing Services - `04-list-services.png`
-5. Viewing Service Logs - `05-service-logs.png`
-6. Custom Service Created - `06-custom-service.png`
-7. Custom Service Running - `07-service-running.png`
-8. Troubleshooting a Failed Service - `08-troubleshoot-failed.png`
-9. Masking and Unmasking a Service - `09-mask-unmask.png`
-10. Final Service Status - `10-final-status.png`
+![Starting and Stopping a Service](02-start-stop-service.png)
+
+![Enabling a Service](03-enable-service.png)
+
+![Listing Services](04-list-services.png)
+
+![Viewing Service Logs](05-service-logs.png)
+
+![Custom Service Created](06-custom-service.png)
+
+![Custom Service Running](07-service-running.png)
+
+![Troubleshooting a Failed Service](08-troubleshoot-failed.png)
+
+![Masking and Unmasking a Service](09-mask-unmask.png)
+
+![Final Service Status](10-final-status.png)
 
 Steps Performed
 
