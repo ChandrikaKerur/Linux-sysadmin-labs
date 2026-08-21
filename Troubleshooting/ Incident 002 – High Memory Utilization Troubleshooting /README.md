@@ -1,4 +1,4 @@
-# 🚨 Incident 002 – High Memory Utilization Troubleshooting (RHEL 9)
+# 🚨 Incident 002 – High Memory Utilization Troubleshooting (Rocky Linux 9)
 
 ## 📖 Overview
 This lab demonstrates how to investigate and resolve a High Memory Utilization issue on a Red Hat Enterprise Linux (RHEL 9) server. The objective is to identify the process consuming excessive memory, investigate the issue, resolve it safely, and verify that the server has returned to a healthy state.
