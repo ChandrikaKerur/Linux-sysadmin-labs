@@ -12,7 +12,7 @@ The objective is to identify the root cause of high CPU usage, resolve the issue
 
 | Component | Details |
 |-----------|---------|
-| Operating System | RHEL 9 |
+| Operating System | Rocky Linux 9 |
 | Tool Used | stress |
 | Purpose | Simulate high CPU utilization |
 
