@@ -62,8 +62,7 @@ ps -eo pid,user,%mem,%cpu,cmd --sort=-%mem | head
 
 📷 Screenshot: `ps`
 
-<img width="940" height="470" alt="image" src="https://github.com/user-attachments/assets/38c1c2e9-bdff-4a8e-8c4b-57141a4584ad" />
-
+<img width="940" height="167" alt="image" src="https://github.com/user-attachments/assets/b34bf65c-8a99-43cb-a627-eaf03c7ef821" />
 
 ---
 
