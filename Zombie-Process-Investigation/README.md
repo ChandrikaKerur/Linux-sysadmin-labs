@@ -116,22 +116,17 @@ fork()
 
 Command
 
-```bash
+bash
 pstree -p
-```
 
 Example
 
-```
+
 bash(1842)
    └── zombie(1958)
           └── zombie(1959)
 
-
 <img width="895" height="565" alt="image" src="https://github.com/user-attachments/assets/9e798965-2e75-4ec6-acb1-344ed7b363c0" />
-
-
-```
 
 ### Observation
 
@@ -162,7 +157,6 @@ ps aux | grep defunct
 
 Expected Output
 
-```
 PID    PPID   S   CMD
 
 1959   1958   Z   [zombie] <defunct>
