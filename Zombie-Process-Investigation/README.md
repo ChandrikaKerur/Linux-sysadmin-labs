@@ -127,7 +127,8 @@ bash(1842)
    └── zombie(1958)
           └── zombie(1959)
 
-<img width="895" height="565" alt="image" src="https://github.com/user-attachments/assets/f44cf17e-ada0-4ca4-a722-a51cd5bdc90c" />
+
+<img width="895" height="565" alt="image" src="https://github.com/user-attachments/assets/9e798965-2e75-4ec6-acb1-344ed7b363c0" />
 
 
 ```
