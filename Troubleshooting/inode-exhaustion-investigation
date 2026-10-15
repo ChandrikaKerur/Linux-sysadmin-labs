@@ -37,7 +37,7 @@ Create a 100 MB loopback file:
 dd if=/dev/zero of=/root/inode.img bs=1M count=100
 ```
 
-(Troubleshooting/image-2.png)
+!(Troubleshooting/image-2.png)
 
 Create an ext4 filesystem with a deliberately low inode count:
 
