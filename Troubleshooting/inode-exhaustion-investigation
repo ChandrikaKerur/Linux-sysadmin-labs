@@ -1,0 +1,446 @@
+# Inode Exhaustion Investigation & Recovery
+
+## Objective
+
+Simulate and troubleshoot a Linux filesystem inode exhaustion issue where applications report:
+
+```text
+No space left on device
+```
+
+even though sufficient disk space is available.
+
+The lab demonstrates how to identify inode exhaustion using `df -i`, locate the directory consuming the inodes, recover the filesystem, and validate that file creation works again.
+
+## Scenario
+
+A production application reports:
+- File uploads are failing
+- New log files cannot be created
+- Applications return `No space left on device`
+
+Initial investigation with `df -h` shows plenty of free space. This suggests the problem may be **inode exhaustion**.
+
+## Lab Environment
+
+- OS: Rocky Linux 10.2
+- Filesystem: ext4
+- Environment: VMware Home Lab
+- Filesystem: 100 MB loopback filesystem
+- Access: Root
+
+## Phase 1 — Create the Lab Filesystem
+
+Create a 100 MB loopback file:
+
+```bash
+dd if=/dev/zero of=/root/inode.img bs=1M count=100
+```
+
+
+
+Create an ext4 filesystem with a deliberately low inode count:
+
+```bash
+mkfs.ext4 -N 1000 /root/inode.img
+```
+
+The filesystem created approximately 1,040 inodes.
+
+Create the mount point:
+
+```bash
+mkdir /mnt/inode_lab
+```
+
+Mount the filesystem:
+
+```bash
+mount -o loop /root/inode.img /mnt/inode_lab
+```
+
+Verify:
+
+```bash
+df -h /mnt/inode_lab
+df -i /mnt/inode_lab
+```
+
+## Phase 2 — Simulate an Application
+
+Create an application upload directory:
+
+```bash
+mkdir /mnt/inode_lab/uploads
+```
+
+Create a test upload:
+
+```bash
+touch /mnt/inode_lab/uploads/test1.jpg
+```
+
+Verify:
+
+```bash
+ls -l /mnt/inode_lab/uploads
+```
+
+At this point, file creation works normally.
+
+## Phase 3 — Exhaust the Inodes
+
+Move into the upload directory:
+
+```bash
+cd /mnt/inode_lab/uploads
+```
+
+Create a large number of small files:
+
+```bash
+touch file{1..1500}
+```
+
+Eventually the filesystem reports:
+
+```text
+No space left on device
+```
+
+This is the simulated production incident.
+
+## Phase 4 — Initial Investigation
+
+Check disk space:
+
+```bash
+df -h /mnt/inode_lab
+```
+
+Example:
+
+```text
+Filesystem   Size  Used  Avail  Use%
+/dev/loop0    95M   39K   88M    1%
+```
+
+There is still approximately **88 MB available**.
+
+Next check inode usage:
+
+```bash
+df -i /mnt/inode_lab
+```
+
+Example:
+
+```text
+Filesystem   Inodes  IUsed  IFree  IUse%
+/dev/loop0     1040   1040      0   100%
+```
+
+### Root Cause
+
+**The filesystem has exhausted all available inodes.**
+
+## Phase 5 — Reproduce the Failure
+
+Try creating another file:
+
+```bash
+touch newfile
+```
+
+Result:
+
+```text
+touch: cannot touch 'newfile': No space left on device
+```
+
+This confirms that new files cannot be created even though disk space is still available.
+
+## Phase 6 — Identify the Problem Directory
+
+Count all files:
+
+```bash
+find /mnt/inode_lab -type f | wc -l
+```
+
+Check the upload directory:
+
+```bash
+find /mnt/inode_lab/uploads -type f | wc -l
+```
+
+In this lab, approximately 1,028 files were present in `uploads`.
+
+This identifies the upload directory as the main inode consumer.
+
+## Phase 7 — Investigate File Size
+
+Inspect the files:
+
+```bash
+ls -lh | head
+```
+
+Example:
+
+```text
+-rw-r--r-- 1 root root 0 file1
+-rw-r--r-- 1 root root 0 file10
+-rw-r--r-- 1 root root 0 file100
+```
+
+The files are **0-byte files**.
+
+Although they consume almost no disk space, each file still requires an inode.
+
+Therefore:
+
+```text
+Many small files
+       ↓
+Many inodes consumed
+       ↓
+Inodes reach 100%
+       ↓
+New files cannot be created
+```
+
+## Phase 8 — Recovery
+
+The generated test files are unnecessary.
+
+Remove them:
+
+```bash
+rm -f file*
+```
+
+Check inode usage:
+
+```bash
+df -i /mnt/inode_lab
+```
+
+After cleanup:
+
+```text
+Filesystem   Inodes  IUsed  IFree  IUse%
+/dev/loop0     1040     13   1027     2%
+```
+
+The filesystem now has free inodes again.
+
+## Phase 9 — Validate Recovery
+
+Check disk space:
+
+```bash
+df -h /mnt/inode_lab
+```
+
+Check inode usage:
+
+```bash
+df -i /mnt/inode_lab
+```
+
+Create new files:
+
+```bash
+touch recovered
+touch healthy
+```
+
+Verify:
+
+```bash
+ls -l recovered healthy test1.jpg
+```
+
+File creation succeeds.
+
+### Recovery confirmed.
+
+## Investigation Flow
+
+```text
+Application cannot create files
+            ↓
+"No space left on device"
+            ↓
+          df -h
+            ↓
+   Disk space available?
+            ↓
+           YES
+            ↓
+          df -i
+            ↓
+   Inodes at 100%?
+            ↓
+           YES
+            ↓
+ Find directory with many files
+            ↓
+ Identify unnecessary files
+            ↓
+       Clean up files
+            ↓
+          df -i
+            ↓
+ Create test file
+            ↓
+    Service restored
+```
+
+## Key Learnings
+
+### `df -h` vs `df -i`
+
+```text
+df -h → Disk space usage
+df -i → Inode usage
+```
+
+When troubleshooting `No space left on device`, check both.
+
+### Free disk space does not always mean files can be created
+
+A filesystem can have significant free disk space while having **0 free inodes**.
+
+### Every file requires an inode
+
+Even a 0-byte file requires an inode.
+
+### Small-file workloads can cause inode exhaustion
+
+Common examples include:
+- Application upload directories
+- Cache directories
+- Temporary directories
+- Mail servers
+- Log directories
+- CI/CD workspaces
+- Container environments
+
+### Increasing disk capacity alone may not solve inode exhaustion
+
+If the filesystem has exhausted its inode supply, simply adding storage does not necessarily provide additional inodes.
+
+Recovery generally involves:
+- Removing unnecessary files
+- Cleaning temporary/cache files
+- Identifying application behavior generating excessive files
+- Recreating the filesystem with an appropriate inode configuration when required
+
+## Production Troubleshooting Commands
+
+Check disk usage:
+
+```bash
+df -h
+```
+
+Check inode usage:
+
+```bash
+df -i
+```
+
+Count files:
+
+```bash
+find /path -type f | wc -l
+```
+
+Find files:
+
+```bash
+find /path -type f
+```
+
+Inspect file sizes:
+
+```bash
+ls -lh
+```
+
+## Interview Questions
+
+### Why can Linux report "No space left on device" when `df -h` shows free space?
+
+Because the filesystem may have exhausted its available inodes. Disk blocks can still be available, but Linux cannot create new files without free inodes.
+
+### What is an inode?
+
+An inode is a filesystem metadata structure that stores information about a file, such as ownership, permissions, timestamps, file type, and references to its data blocks.
+
+### Which command checks inode usage?
+
+```bash
+df -i
+```
+
+### Why do millions of small files exhaust inodes?
+
+Every file requires an inode regardless of its size. Therefore, millions of small files can exhaust inode availability long before disk space is exhausted.
+
+### Can increasing disk size alone solve inode exhaustion?
+
+No. If the filesystem has exhausted its available inodes, increasing disk capacity does not necessarily increase the number of available inodes.
+
+### What would you check when an application reports `No space left on device`?
+
+First:
+
+```bash
+df -h
+```
+
+If sufficient disk space is available:
+
+```bash
+df -i
+```
+
+If inode usage is 100%, identify directories containing large numbers of files, investigate why the files were created, clean up unnecessary files, and verify recovery.
+
+## Cleanup
+
+After completing the lab:
+
+```bash
+cd /
+umount /mnt/inode_lab
+rmdir /mnt/inode_lab
+rm -f /root/inode.img
+```
+
+Verify:
+
+```bash
+ls -l /root/inode.img
+```
+
+Expected:
+
+```text
+No such file or directory
+```
+
+## Skills Demonstrated
+
+- Linux System Administration
+- Linux Troubleshooting
+- Filesystem Management
+- ext4
+- Inode Management
+- Disk Space Analysis
+- Production Incident Investigation
+- Root Cause Analysis
+- Service Recovery
