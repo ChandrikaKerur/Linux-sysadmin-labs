@@ -195,4 +195,5 @@ lsinitrd /boot/initramfs-<kernel>.img
 
 
 Final Incident Summary
+
 A simulated production-style kernel panic was investigated by following the Linux boot path, validating filesystem configuration, identifying a corrupted initramfs, entering the Rocky Linux rescue environment, restoring a known-good initramfs backup, rebooting, and validating the recovered system. The lab demonstrates a practical and repeatable approach to diagnosing boot failures caused by initramfs corruption.
