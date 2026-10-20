@@ -35,7 +35,7 @@ dnf install nfs-utils -y
 
 This installs the NFS server/client utilities and related RPC components.
 
-01-install-nfs-utils.png
+![Install NFS utilities](01-install-nfs-utils.png)
 
 ---
 
