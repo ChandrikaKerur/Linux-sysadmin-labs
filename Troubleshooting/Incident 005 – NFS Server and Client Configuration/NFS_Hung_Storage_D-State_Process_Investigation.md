@@ -50,7 +50,7 @@ chmod 777 /share
 - `chmod 777` is used only to keep permissions simple for this lab.
 - In production, use appropriate ownership and permissions instead of `777`.
 
-![Incident 005 – NFS Server and Client Configuration(screenshots/02-create-share.png)
+![Incident 005 – NFS Server and Client Configuration(02-create-share.png)
 
 ---
 
@@ -90,7 +90,7 @@ Expected:
 exporting *:/share
 ```
 
-![Export NFS share](screenshots/03-exportfs.png)
+![Export NFS share](03-exportfs.png)
 
 ---
 
@@ -108,7 +108,7 @@ systemctl status nfs-server
 
 On this Rocky Linux 10 lab, `nfs-server.service` may show **active (exited)**. This is normal for this service because it starts the underlying NFS components and then exits.
 
-![NFS server status](screenshots/04-nfs-server-status.png)
+![NFS server status](04-nfs-server-status.png)
 
 ---
 
@@ -143,7 +143,7 @@ Export list for 192.168.1.124:
 /share *
 ```
 
-![Verify NFS export](screenshots/05-showmount.png)
+![Verify NFS export](05-showmount.png)
 
 If this fails with an RPC-related error, check:
 
@@ -172,7 +172,7 @@ systemctl stop firewalld
 
 > In production, configure the required NFS/RPC firewall rules instead of disabling `firewalld`.
 
-![Firewall check](screenshots/06-firewall-check.png)
+![Firewall check](06-firewall-check.png)
 
 ---
 
@@ -197,7 +197,7 @@ Expected mount:
 192.168.1.124:/share on /mnt/share type nfs4 ...
 ```
 
-![NFS mount verification](screenshots/07-mount-and-verify.png)
+![NFS mount verification](07-mount-and-verify.png)
 
 ---
 
@@ -240,7 +240,7 @@ dd if=/dev/zero of=/mnt/share/bigfile bs=1M status=progress
 
 The important point is that **`bigfile` is being written to NFS storage, not the client's local disk**.
 
-![dd process running](screenshots/08-dd-process.png)
+![dd process running](08-dd-process.png)
 
 ---
 
@@ -283,7 +283,7 @@ PID   STAT  CMD
 2360  D+    dd if=/dev/zero of=/mnt/share/bigfile ...
 ```
 
-![D-state process](screenshots/09-dstate-kill.png)
+![D-state process](09-dstate-kill.png)
 
 ---
 
@@ -349,7 +349,7 @@ A better interview statement is:
 
 > **SIGKILL cannot take effect while the process is stuck in an uninterruptible kernel I/O wait. If the I/O operation eventually returns, the pending signal can then be processed.**
 
-![kill and kill -9 while in D-state](screenshots/09-dstate-kill.png)
+![kill and kill -9 while in D-state](09-dstate-kill.png)
 
 ---
 
@@ -363,7 +363,7 @@ top
 
 The `dd` process may not be immediately obvious on the visible portion of the screen. Use `ps` for a direct process check.
 
-![top output](screenshots/10-top.png)
+![top output](10-top.png)
 
 ---
 
@@ -380,7 +380,7 @@ Important columns:
 
 During the outage, this lab showed sustained/high `wa` values, consistent with the blocked NFS I/O.
 
-![vmstat I/O wait](screenshots/11-vmstat.png)
+![vmstat I/O wait](11-vmstat.png)
 
 ---
 
@@ -392,7 +392,7 @@ dmesg | tail -20
 
 The exact output depends on the kernel and the failure scenario. In this run, the tail contained a kernel stack trace rather than a clean NFS error message, so it was not treated as the primary evidence.
 
-![dmesg output](screenshots/12-dmesg.png)
+![dmesg output](12-dmesg.png)
 
 You can also investigate with:
 
@@ -424,7 +424,7 @@ systemctl status nfs-server
 
 > On this Rocky Linux 10 system, the correct service name is `rpcbind`, not `rpc-bind` or `rpc-bind.service`.
 
-![NFS recovery](screenshots/13-recovery-server.png)
+![NFS recovery](13-recovery-server.png)
 
 ---
 
@@ -440,7 +440,7 @@ After the NFS I/O path is restored, the blocked operation can complete and the `
 
 In this run, PID `2360` was no longer present after recovery.
 
-![Client recovery](screenshots/14-recovery-client.png)
+![Client recovery](14-recovery-client.png)
 
 ---
 
