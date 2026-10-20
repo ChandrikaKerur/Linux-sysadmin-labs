@@ -50,7 +50,7 @@ chmod 777 /share
 - `chmod 777` is used only to keep permissions simple for this lab.
 - In production, use appropriate ownership and permissions instead of `777`.
 
-![Create NFS share](screenshots/02-create-share.png)
+![Incident 005 – NFS Server and Client Configuration(screenshots/02-create-share.png)
 
 ---
 
